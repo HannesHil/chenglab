@@ -101,6 +101,11 @@
         modules = [./machines/svr1chng/configuration.nix];
       };
 
+      homeboy = nixpkgs.lib.nixosSystem {
+        specialArgs = {inherit inputs outputs;};
+        modules = [./machines/homeboy/configuration.nix];
+      };
+
       svr2chng = nixpkgs.lib.nixosSystem {
         specialArgs = {inherit inputs outputs;};
         modules = [./machines/svr2chng/configuration.nix];
