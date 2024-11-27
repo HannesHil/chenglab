@@ -34,7 +34,7 @@
 
   sops = {
     defaultSopsFile = ./../../secrets/secrets.yaml;
-    age.sshKeyPaths = ["/nix/secret/initrd/ssh_host_ed25519_key"];
+    age.sshKeyPaths = ["/nix/secret/initrd/ssh_host"];
     secrets."user-password".neededForUsers = true;
     secrets."user-password" = {};
     # inspo: https://github.com/Mic92/sops-nix/issues/427
@@ -77,9 +77,9 @@
     };
   };
 
-  programs.zsh.enable = true;
+  programs.fish.enable = true;
   security.sudo.wheelNeedsPassword = false;
-  time.timeZone = "America/New_York";
+  time.timeZone = "Europe/Berlin";
   zramSwap.enable = true;
 
   environment.persistence."/nix/persist" = {
@@ -102,5 +102,5 @@
   };
 
   # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
-  system.stateVersion = "23.11";
+  system.stateVersion = "24.05";
 }

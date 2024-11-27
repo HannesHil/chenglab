@@ -6,7 +6,7 @@
       enable = true;
       shell = "/bin/cryptsetup-askpass";
       authorizedKeys = config.users.users.eh8.openssh.authorizedKeys.keys;
-      hostKeys = ["/nix/secret/initrd/ssh_host_ed25519_key"];
+      hostKeys = ["/nix/secret/ssh_host"];
     };
   };
 }
