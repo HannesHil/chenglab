@@ -8,7 +8,7 @@ deploy machine ip='':
   elif [ -z "{{ip}}" ]; then
     sudo nixos-rebuild switch --fast --flake ".#{{machine}}"
   else
-    nixos-rebuild switch --fast --flake ".#{{machine}}" --use-remote-sudo --target-host "eh8@{{ip}}" --build-host "eh8@{{ip}}"
+    nixos-rebuild switch --fast --flake ".#{{machine}}" --use-remote-sudo --target-host "hannes@{{ip}}" --build-host "hannes@{{ip}}"
   fi
 
 up:

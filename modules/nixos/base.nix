@@ -42,9 +42,9 @@
   };
 
   users.mutableUsers = false;
-  users.users.eh8 = {
+  users.users.hannes = {
     isNormalUser = true;
-    description = "eh8";
+    description = "hannes";
     extraGroups = ["networkmanager" "wheel"];
     openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKPpR3quzZnoLnO6cmYlGGbMvMF6JGob2FxnPH4enwOC"

@@ -23,7 +23,7 @@
     useGlobalPkgs = true;
     useUserPackages = true;
     users = {
-      eh8 = {
+      hannes = {
         imports = [
           ./../../modules/home-manager/base.nix
         ];
