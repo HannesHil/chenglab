@@ -5,6 +5,7 @@
 }: {
   imports = [
     inputs.impermanence.nixosModules.impermanence
+    inputs.home-manager.nixosModules.home-manager
 
     ./hardware-configuration.nix
 
@@ -16,6 +17,19 @@
     # ./../../services/netdata.nix
     #./../../services/nextcloud.nix
   ];
+
+  home-manager = {
+    extraSpecialArgs = {inherit inputs outputs;};
+    useGlobalPkgs = true;
+    useUserPackages = true;
+    users = {
+      eh8 = {
+        imports = [
+          ./../../modules/home-manager/base.nix
+        ];
+      };
+    };
+  };
 
   networking.hostName = "homeboy";
   services.btrfs.autoScrub.enable = true;
