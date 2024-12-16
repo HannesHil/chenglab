@@ -49,7 +49,6 @@
     openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKPpR3quzZnoLnO6cmYlGGbMvMF6JGob2FxnPH4enwOC"
     ];
-    shell = pkgs.zsh;
     hashedPasswordFile = config.sops.secrets."user-password".path;
   };
 
