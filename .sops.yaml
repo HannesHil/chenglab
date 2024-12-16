@@ -1,9 +1,9 @@
 keys:
   - &workboy age1akn6hlpaetn6cth08kl7xz57l30t3qx95knhl398avm62egr856sykgw3j
-  - &homeboy age13aegw2aqg9f3kaltmlpysr43l6684ce6grrva0tjrrd80q0zj95q373y3k
+  - &svrhomeboy age13aegw2aqg9f3kaltmlpysr43l6684ce6grrva0tjrrd80q0zj95q373y3k
 creation_rules:
   - path_regex: secrets/[^/]+(\.(yaml|json|env|ini|conf))?$
     key_groups:
       - age:
-          - *homeboy
+          - *svrhomeboy
           - *workboy

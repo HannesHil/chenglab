@@ -6,7 +6,7 @@
       enable = true;
       shell = "/bin/cryptsetup-askpass";
       authorizedKeys = config.users.users.hannes.openssh.authorizedKeys.keys;
-      hostKeys = ["/nix/secret/ssh_host"];
+      hostKeys = ["/nix/secret/initrd/ssh_initrd_host"];
     };
   };
 }

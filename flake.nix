@@ -96,14 +96,14 @@
         ];
       };
 
+      svrhomeboy = nixpkgs.lib.nixosSystem {
+        specialArgs = {inherit inputs outputs;};
+        modules = [./machines/svrhomeboy/configuration.nix];
+      };
+
       svr1chng = nixpkgs.lib.nixosSystem {
         specialArgs = {inherit inputs outputs;};
         modules = [./machines/svr1chng/configuration.nix];
-      };
-
-      homeboy = nixpkgs.lib.nixosSystem {
-        specialArgs = {inherit inputs outputs;};
-        modules = [./machines/homeboy/configuration.nix];
       };
 
       svr2chng = nixpkgs.lib.nixosSystem {
