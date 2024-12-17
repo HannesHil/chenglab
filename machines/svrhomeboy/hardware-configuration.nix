@@ -9,6 +9,7 @@
   ];
 
   services.logind.lidSwitch = "ignore";
+  services.upower.ignoreLid = true;
 
   boot = {
     supportedFilesystems = [ "btrfs" ];
