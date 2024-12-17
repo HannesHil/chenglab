@@ -14,7 +14,7 @@
     #./../../modules/nixos/auto-update.nix
 
     ./../../services/tailscale.nix
-    # ./../../services/netdata.nix
+    ./../../services/bitwarden.nix
     #./../../services/nextcloud.nix
   ];
 
