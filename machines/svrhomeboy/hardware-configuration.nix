@@ -8,6 +8,8 @@
     (modulesPath + "/installer/scan/not-detected.nix")
   ];
 
+  services.logind.lidSwitch = "ignore";
+
   boot = {
     supportedFilesystems = [ "btrfs" ];
     initrd = {
