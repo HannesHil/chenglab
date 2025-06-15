@@ -28,7 +28,7 @@ sopsedit:
 
 sopsrotate:
   for file in secrets/*; do sops --rotate --in-place "$file"; done
-  
+
 sopsupdate:
   for file in secrets/*; do sops updatekeys "$file"; done
 

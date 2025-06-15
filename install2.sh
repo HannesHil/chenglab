@@ -57,7 +57,7 @@ echo "Partitioning ${TARGET_DISK}..."
 # Create a new GPT partition table
 parted -s "${TARGET_DISK}" mklabel gpt
 echo "Creating EFI partition (1GB)..."
-parted -s "${TARGET_DISK}" mkpart BOOT fat32 1MiB 1025MiB
+parted -s "${TARGET_DISK}" mkpart NIXBOOT fat32 1MiB 1025MiB
 parted -s "${TARGET_DISK}" set 1 esp on
 
 # Create the root partition for NixOS with Btrfs (remaining space)
@@ -102,7 +102,7 @@ echo "Formatting partitions..."
 
 # Format the EFI System Partition as FAT32
 echo "Formatting $EFI_PARTITION as FAT32 (BOOT)..."
-mkfs.fat -F 32 -n BOOT "$EFI_PARTITION"
+mkfs.fat -F 32 -n NIXBOOT "$EFI_PARTITION"
 if [ $? -ne 0 ]; then
     echo "ERROR: Failed to format $EFI_PARTITION. Exiting."
     exit 1
@@ -254,14 +254,14 @@ cat > "$CONFIG_FILE" << EOF
   # For systemd-boot, ensure the ESP is mounted at /boot
   # The hardware-configuration.nix should correctly identify it.
   # Example from hardware-configuration.nix for /boot:
-  # fileSystems."/boot" =
-  #   { device = "/dev/disk/by-uuid/YOUR-EFI-UUID"; # This will be auto-detected
-  #     fsType = "vfat";
-  #   };
+  fileSystems."/boot" =
+    { device = "/dev/disk/by-label/NIXBOOT";
+      fsType = "vfat";
+    };
 
 
   # Set your time zone.
-  time.timeZone = "Europe/Berlin"; # TODO: Adjust to your timezone
+  time.timeZone = "Europe/Berlin";
 
   # Select internationalisation properties.
   i18n.defaultLocale = "de_DE.UTF-8";
@@ -281,10 +281,10 @@ cat > "$CONFIG_FILE" << EOF
   # services.openssh.permitRootLogin = "no"; # Recommended for security
 
   # Define a user account.
-  users.users.yourusername = { # TODO: Change 'yourusername'
+  users.users.hannes = {
     isNormalUser = true;
-    description = "Your User Name"; # TODO: Change description
-    extraGroups = [ "networkmanager" "wheel" ]; # 'wheel' allows sudo
+    description = "This is my user";
+    extraGroups = [ "networkmanager" "wheel" ];
     # Set password after first boot with 'passwd yourusername'
     # Or use 'initialHashedPassword' for a pre-hashed password:
     # initialHashedPassword = "\$6\$yourhashedpassword\$..."; # Generate with mkpasswd -m sha-512
@@ -295,12 +295,12 @@ cat > "$CONFIG_FILE" << EOF
 
   # List packages installed in system profile.
   environment.systemPackages = with pkgs; [
-    vim
+    neovim
     wget
     curl
     git
     htop
-    # btrfs-progs # Already available in installer, but good to have in system
+    btrfs-progs
   ];
 
   # This value determines the NixOS release from which the default
@@ -309,7 +309,7 @@ cat > "$CONFIG_FILE" << EOF
   # this value at the release version of the first install of this system.
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/manual/nixos/stable/options#opt-system.stateVersion).
-  system.stateVersion = "23.11"; # TODO: Set to the version you are installing (e.g., "23.11", "24.05")
+  system.stateVersion = "25.05";
 
 }
 EOF
@@ -359,5 +359,3 @@ echo ""
 echo "After rebooting, log in with the user you configured and set a password if you haven't."
 echo "Example: sudo passwd yourusername"
 echo "--------------------------------------------------------------------"
-
-
