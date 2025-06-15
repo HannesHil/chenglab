@@ -278,14 +278,14 @@ cat > "$CONFIG_FILE" << EOF
 
   # Enable the SSH daemon.
   services.openssh.enable = true;
-  services.openssh.settings.permitRootLogin = "no";
+  services.openssh.settings.PermitRootLogin = "no";
 
   # Define a user account.
   users.users.hannes = {
     isNormalUser = true;
     description = "This is my user";
     extraGroups = [ "networkmanager" "wheel" ];
-    initialHashedPassword = "$y$j9T$xjeUVniJRrw94dcOM21c71$TruQUzMy6KkrIvKFtgzWdezIycYD/aEQ4YXrQQDl.8/";
+    initialHashedPassword = "";
     openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPqXUtpGuEjknNH4Rqbe65DqNceyq5N7+427r8bEJfgG hannes@nixos"
     ];
