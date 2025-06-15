@@ -254,10 +254,10 @@ cat > "$CONFIG_FILE" << EOF
   # For systemd-boot, ensure the ESP is mounted at /boot
   # The hardware-configuration.nix should correctly identify it.
   # Example from hardware-configuration.nix for /boot:
-  fileSystems."/boot" =
-    { device = "/dev/disk/by-label/NIXBOOT";
-      fsType = "vfat";
-    };
+  # fileSystems."/boot" =
+  #   { device = "/dev/disk/by-label/NIXBOOT";
+  #     fsType = "vfat";
+  #   };
 
 
   # Set your time zone.
@@ -271,23 +271,24 @@ cat > "$CONFIG_FILE" << EOF
   };
 
   # Configure networking.
-  networking.useDHCP = true; # Enables DHCP on all interfaces.
+  networking.useDHCP = true;
   # Or configure specific interface:
   # networking.interfaces.eth0.useDHCP = true; # Replace eth0 with your interface name
   # networking.hostName = "nixos"; # Define your hostname.
 
   # Enable the SSH daemon.
   services.openssh.enable = true;
-  # services.openssh.permitRootLogin = "no"; # Recommended for security
+  services.openssh.permitRootLogin = "no";
 
   # Define a user account.
   users.users.hannes = {
     isNormalUser = true;
     description = "This is my user";
     extraGroups = [ "networkmanager" "wheel" ];
-    # Set password after first boot with 'passwd yourusername'
-    # Or use 'initialHashedPassword' for a pre-hashed password:
-    # initialHashedPassword = "\$6\$yourhashedpassword\$..."; # Generate with mkpasswd -m sha-512
+    initialHashedPassword = "$y$j9T$YwEJtdPGfadgAhoaW96qA.$qOCMKJJrAT3co7SM3LCsAI6u4EyLg5CQ4aFq7OZrHZ1";
+    openssh.authorizedKeys.keys = [
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPqXUtpGuEjknNH4Rqbe65DqNceyq5N7+427r8bEJfgG hannes@nixos"
+    ];
   };
 
   # Allow unfree packages
