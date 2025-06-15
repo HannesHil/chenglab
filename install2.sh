@@ -1,5 +1,7 @@
 #!/bin/sh
 
+set -e -u -o pipefail
+
 # Become root
 sudo -i
 
@@ -35,6 +37,14 @@ echo "INFO: Please ensure an internet connection is available!"
 echo "--------------------------------------------------------------------"
 # read -p "Press Enter to continue, or Ctrl+C to abort."
 
+# Clear screen before showing disk layout
+clear
+
+# Display disk layout
+echo -e "\n\033[1mDisk Layout:\033[0m"
+lsblk
+echo ""
+
 # Partitioning the selected disk with GPT
 echo "--------------------------------------------------------------------"
 echo "WARNING: ALL DATA ON ${TARGET_DISK} WILL BE DELETED!"
@@ -46,9 +56,6 @@ echo "Partitioning ${TARGET_DISK}..."
 
 # Create a new GPT partition table
 parted -s "${TARGET_DISK}" mklabel gpt
-
-# Create the EFI System Partition (ESP) - now 1GB
-# 1GiB = 1024MiB. Start at 1MiB, end at 1MiB + 1024MiB = 1025MiB
 echo "Creating EFI partition (1GB)..."
 parted -s "${TARGET_DISK}" mkpart BOOT fat32 1MiB 1025MiB
 parted -s "${TARGET_DISK}" set 1 esp on
@@ -56,7 +63,7 @@ parted -s "${TARGET_DISK}" set 1 esp on
 # Create the root partition for NixOS with Btrfs (remaining space)
 # Starts after the 1GB ESP (1025MiB)
 echo "Creating NixOS root partition (rest of disk)..."
-parted -s "${TARGET_DISK}" mkpart NIXOS_ROOT btrfs 1025MiB 100%
+parted -s "${TARGET_DISK}" mkpart NIX btrfs 1025MiB 100%
 
 echo "Partitioning complete."
 echo "Partitions on ${TARGET_DISK}:"
@@ -104,8 +111,8 @@ echo "$EFI_PARTITION formatted as FAT32."
 echo "--------------------------------------------------------------------"
 
 # Format the Root Partition as Btrfs
-echo "Formatting $ROOT_PARTITION as Btrfs (NIXOS_ROOT)..."
-mkfs.btrfs -f -L NIXOS_ROOT -m single "$ROOT_PARTITION"
+echo "Formatting $ROOT_PARTITION as Btrfs (NIX)..."
+mkfs.btrfs -f -L NIX -m single "$ROOT_PARTITION"
 if [ $? -ne 0 ]; then
     echo "ERROR: Failed to format $ROOT_PARTITION. Exiting."
     exit 1
